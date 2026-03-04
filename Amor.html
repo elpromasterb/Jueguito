@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+<title>Para Kiara 🌹</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Jost:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0d0608;--rose:#d4546e;--rose2:#e8849a;--gold:#c8943a;--gold2:#e8c97a;--cream:#fdf0f3;--soft:#f7c5cf;}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--cream);font-family:'Jost',sans-serif;min-height:100vh;overflow-x:hidden;}
+#bgCanvas{position:fixed;inset:0;z-index:0;pointer-events:none;}
+.nav{position:fixed;right:clamp(10px,3vw,22px);top:50%;transform:translateY(-50%);z-index:100;display:flex;flex-direction:column;gap:10px;}
+.nav-dot{width:8px;height:8px;border-radius:50%;background:rgba(212,84,110,.3);border:1px solid rgba(212,84,110,.5);cursor:pointer;transition:all .3s;}
+.nav-dot.active{background:var(--rose);box-shadow:0 0 10px var(--rose);}
+section{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:clamp(40px,8vw,80px) clamp(20px,6vw,60px);}
+.hero{text-align:center;gap:clamp(14px,3vw,26px);}
+.hero-eyebrow{font-family:'Jost',sans-serif;font-size:clamp(10px,1.8vw,13px);letter-spacing:.5em;color:var(--gold);text-transform:uppercase;opacity:0;animation:fadeUp .8s .2s forwards;}
+.hero-name{font-family:'Playfair Display',serif;font-size:clamp(64px,16vw,140px);font-style:italic;font-weight:700;line-height:.9;background:linear-gradient(135deg,var(--cream) 0%,var(--soft) 40%,var(--gold2) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;opacity:0;animation:fadeUp .9s .4s forwards;filter:drop-shadow(0 0 40px rgba(212,84,110,.3));}
+.hero-sub{font-family:'Playfair Display',serif;font-size:clamp(14px,2.5vw,20px);font-style:italic;color:var(--soft);opacity:0;animation:fadeUp .9s .6s forwards;max-width:380px;line-height:1.6;}
+.hero-line{display:flex;align-items:center;gap:14px;opacity:0;animation:fadeUp .9s .8s forwards;}
+.hl{flex:1;max-width:100px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.hrose{font-size:clamp(18px,3vw,24px);}
+.bantita-line{font-family:'Playfair Display',serif;font-size:clamp(13px,2.2vw,18px);font-style:italic;color:#f4a7b9;opacity:0;animation:fadeUp .9s 1s forwards;line-height:1.6;text-align:center;}
+.scroll-hint{position:absolute;bottom:clamp(20px,4vw,36px);font-size:11px;letter-spacing:.3em;color:rgba(253,240,243,.3);text-transform:uppercase;animation:bounce 2s infinite;}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+.counter-section{gap:clamp(24px,4vw,40px);}
+.section-tag{font-family:'Jost',sans-serif;font-size:clamp(9px,1.5vw,11px);letter-spacing:.5em;text-transform:uppercase;color:var(--gold);opacity:.7;}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(28px,5vw,48px);font-style:italic;text-align:center;line-height:1.2;}
+.rings-row{display:flex;flex-wrap:wrap;justify-content:center;gap:clamp(12px,3vw,28px);}
+.ring-wrap{display:flex;flex-direction:column;align-items:center;gap:8px;}
+.ring-container{position:relative;display:inline-flex;}
+.ring-svg{width:clamp(80px,15vw,118px);height:clamp(80px,15vw,118px);transform:rotate(-90deg);filter:drop-shadow(0 0 14px rgba(212,84,110,.35));}
+.ring-track{fill:none;stroke:rgba(212,84,110,.1);stroke-width:5;}
+.ring-fill{fill:none;stroke-width:5;stroke-linecap:round;stroke-dasharray:283;stroke-dashoffset:283;transition:stroke-dashoffset 1.2s cubic-bezier(.4,0,.2,1);}
+.ry .ring-fill,.rd .ring-fill,.rs .ring-fill{stroke:url(#gG);}
+.rm .ring-fill,.rh .ring-fill{stroke:url(#rG);}
+.ring-inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.ring-num{font-family:'Playfair Display',serif;font-size:clamp(18px,4vw,30px);font-weight:700;color:var(--cream);line-height:1;}
+.ring-unit{font-size:clamp(7px,1.2vw,9px);letter-spacing:.2em;color:var(--gold2);text-transform:uppercase;margin-top:2px;}
+.since-date{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(12px,2vw,15px);color:rgba(253,240,243,.35);text-align:center;}
+.letter-section{gap:clamp(20px,4vw,36px);}
+.letter-card{max-width:560px;width:100%;background:rgba(212,84,110,.05);border:1px solid rgba(200,148,58,.2);border-radius:clamp(16px,3vw,28px);padding:clamp(28px,6vw,52px) clamp(24px,5vw,48px);position:relative;overflow:hidden;}
+.letter-card::before{content:'\275D';position:absolute;top:12px;left:20px;font-size:80px;color:rgba(212,84,110,.07);font-family:'Playfair Display',serif;line-height:1;}
+.letter-text{font-family:'Playfair Display',serif;font-size:clamp(15px,2.5vw,20px);font-style:italic;line-height:1.85;color:var(--cream);opacity:.9;text-align:center;position:relative;z-index:1;}
+.letter-text .hl2{color:var(--gold2);font-style:normal;font-weight:700;}
+.letter-sig{font-family:'Playfair Display',serif;font-size:clamp(18px,3vw,26px);font-style:italic;color:var(--rose2);text-align:right;margin-top:clamp(20px,3vw,30px);}
+.game-section{gap:clamp(18px,3vw,32px);}
+.game-desc{font-size:clamp(12px,2vw,15px);color:rgba(253,240,243,.45);text-align:center;letter-spacing:.04em;max-width:340px;line-height:1.6;}
+#gameCanvas{border-radius:clamp(16px,3vw,24px);border:1px solid rgba(212,84,110,.2);cursor:crosshair;touch-action:none;background:rgba(15,4,8,.6);max-width:100%;box-shadow:0 0 50px rgba(212,84,110,.12),inset 0 0 60px rgba(0,0,0,.4);}
+.game-ui{display:flex;align-items:center;gap:clamp(16px,4vw,36px);flex-wrap:wrap;justify-content:center;}
+.game-stat{text-align:center;}
+.game-stat-num{font-family:'Playfair Display',serif;font-size:clamp(32px,7vw,52px);font-weight:700;color:var(--rose2);line-height:1;text-shadow:0 0 20px rgba(212,84,110,.5);}
+.game-stat-label{font-size:clamp(9px,1.5vw,11px);letter-spacing:.3em;color:var(--gold);text-transform:uppercase;opacity:.7;margin-top:4px;}
+.game-btn{padding:clamp(12px,2vw,16px) clamp(28px,5vw,44px);background:linear-gradient(135deg,var(--rose),#a33050);border:none;border-radius:50px;font-family:'Jost',sans-serif;font-size:clamp(12px,2vw,14px);letter-spacing:.25em;color:var(--cream);cursor:pointer;text-transform:uppercase;transition:all .3s;box-shadow:0 8px 30px rgba(212,84,110,.35);}
+.game-btn:hover{transform:translateY(-3px);box-shadow:0 14px 40px rgba(212,84,110,.5);}
+.game-msg{font-family:'Playfair Display',serif;font-size:clamp(14px,2.5vw,18px);font-style:italic;color:var(--gold2);text-align:center;min-height:28px;}
+footer{position:relative;z-index:1;text-align:center;padding:clamp(20px,4vw,40px);font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(12px,2vw,14px);color:rgba(253,240,243,.18);}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .8s,transform .8s;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--rose);border-radius:2px}
+</style>
+</head>
+<body>
+<canvas id="bgCanvas"></canvas>
+<nav class="nav">
+  <div class="nav-dot active" onclick="goTo(0)"></div>
+  <div class="nav-dot" onclick="goTo(1)"></div>
+  <div class="nav-dot" onclick="goTo(2)"></div>
+  <div class="nav-dot" onclick="goTo(3)"></div>
+</nav>
+
+<section class="hero" id="s0">
+  <p class="hero-eyebrow">Con todo mi amor</p>
+  <h1 class="hero-name">Kiara</h1>
+  <p class="hero-sub">Cada segundo a tu lado es el más bonito de mi vida</p>
+  <div class="hero-line"><div class="hl"></div><span class="hrose">🌹</span><div class="hl"></div></div>
+  <p class="bantita-line">Te amo de acá hasta el infinito<br>y de ida y vuelta mi bantita 🩷</p>
+  <p class="scroll-hint">&#9660; &nbsp; descubre más</p>
+</section>
+
+<section class="counter-section" id="s1">
+  <p class="section-tag reveal">Llevamos juntos</p>
+  <h2 class="section-title reveal">Cada momento contigo<br><em>es eterno</em></h2>
+  <svg width="0" height="0" style="position:absolute">
+    <defs>
+      <linearGradient id="gG" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#c8943a"/><stop offset="100%" stop-color="#e8c97a"/>
+      </linearGradient>
+      <linearGradient id="rG" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#d4546e"/><stop offset="100%" stop-color="#e8849a"/>
+      </linearGradient>
+    </defs>
+  </svg>
+  <div class="rings-row reveal">
+    <div class="ring-wrap"><div class="ring-container"><svg class="ring-svg ry" viewBox="0 0 100 100"><circle class="ring-track" cx="50" cy="50" r="45"/><circle class="ring-fill" cx="50" cy="50" r="45" id="ringY"/></svg><div class="ring-inner"><span class="ring-num" id="nY">0</span><span class="ring-unit">años</span></div></div></div>
+    <div class="ring-wrap"><div class="ring-container"><svg class="ring-svg rm" viewBox="0 0 100 100"><circle class="ring-track" cx="50" cy="50" r="45"/><circle class="ring-fill" cx="50" cy="50" r="45" id="ringM"/></svg><div class="ring-inner"><span class="ring-num" id="nM">0</span><span class="ring-unit">meses</span></div></div></div>
+    <div class="ring-wrap"><div class="ring-container"><svg class="ring-svg rd" viewBox="0 0 100 100"><circle class="ring-track" cx="50" cy="50" r="45"/><circle class="ring-fill" cx="50" cy="50" r="45" id="ringD"/></svg><div class="ring-inner"><span class="ring-num" id="nD">0</span><span class="ring-unit">días</span></div></div></div>
+    <div class="ring-wrap"><div class="ring-container"><svg class="ring-svg rh" viewBox="0 0 100 100"><circle class="ring-track" cx="50" cy="50" r="45"/><circle class="ring-fill" cx="50" cy="50" r="45" id="ringH"/></svg><div class="ring-inner"><span class="ring-num" id="nH">0</span><span class="ring-unit">horas</span></div></div></div>
+    <div class="ring-wrap"><div class="ring-container"><svg class="ring-svg rs" viewBox="0 0 100 100"><circle class="ring-track" cx="50" cy="50" r="45"/><circle class="ring-fill" cx="50" cy="50" r="45" id="ringS"/></svg><div class="ring-inner"><span class="ring-num" id="nS">0</span><span class="ring-unit">segs</span></div></div></div>
+  </div>
+  <p class="since-date reveal">Desde el 31 de octubre de 2023, 11:00 PM ♾️</p>
+</section>
+
+<section class="letter-section" id="s2">
+  <p class="section-tag reveal">✦ Una carta para ti, Amor ✦</p>
+  <div class="letter-card reveal">
+    <p class="letter-text">
+      Kiara, desde el primer momento que entraste en mi vida
+      supe que eras <span class="hl2">algo diferente</span>.<br><br>
+      Cada día a tu lado es un regalo que atesoro,
+      cada sonrisa tuya ilumina incluso mis días más oscuros.<br><br>
+      Quiero que sepas que <span class="hl2">te amo profundamente</span>,
+      con cada parte de mí, sin condiciones y sin límites.<br><br>
+      Gracias por ser mi persona favorita en este mundo entero. 🌹
+    </p>
+    <p class="letter-sig">— Rabanito</p>
+  </div>
+</section>
+
+<section class="game-section" id="s3">
+  <p class="section-tag reveal">✦ Mini juego ✦</p>
+  <h2 class="section-title reveal">Atrapa los<br><em>corazones</em></h2>
+  <p class="game-desc reveal">¡Toca los corazones antes de que caigan! Cada uno es un "te amo" 💕</p>
+  <div class="game-ui reveal">
+    <div class="game-stat"><div class="game-stat-num" id="gScore">0</div><div class="game-stat-label">Amor ❤️</div></div>
+    <canvas id="gameCanvas" width="300" height="400"></canvas>
+    <div class="game-stat"><div class="game-stat-num" id="gLives">3</div><div class="game-stat-label">Vidas 🌹</div></div>
+  </div>
+  <p class="game-msg" id="gameMsg">Presiona Jugar para empezar 🌸</p>
+  <button class="game-btn" id="gameBtn" onclick="startGame()">Jugar 🌹</button>
+</section>
+
+<footer>Hecho con todo el amor del mundo &nbsp;·&nbsp; Para siempre ♾️</footer>
+
+<script>
+// BG
+const bgC=document.getElementById('bgCanvas'),bgX=bgC.getContext('2d');
+let W,H,stars=[];
+function resizeBg(){W=bgC.width=window.innerWidth;H=bgC.height=window.innerHeight;}
+resizeBg();window.addEventListener('resize',resizeBg);
+for(let i=0;i<90;i++)stars.push({x:Math.random()*3000,y:Math.random()*6000,r:Math.random()*1.4+.3,a:Math.random(),da:(.002+Math.random()*.005)*(Math.random()<.5?1:-1)});
+function drawBg(){
+  bgX.clearRect(0,0,W,H);
+  const g=bgX.createRadialGradient(W*.3,H*.2,0,W*.5,H*.5,H*.9);
+  g.addColorStop(0,'rgba(55,8,18,.8)');g.addColorStop(1,'rgba(13,6,8,1)');
+  bgX.fillStyle=g;bgX.fillRect(0,0,W,H);
+  const sy=window.scrollY;
+  stars.forEach(s=>{s.a+=s.da;if(s.a>1||s.a<0)s.da*=-1;bgX.beginPath();bgX.arc(s.x%W,(s.y-sy*.25)%H,s.r,0,Math.PI*2);bgX.fillStyle='rgba(253,240,243,'+s.a*.6+')';bgX.fill();});
+  requestAnimationFrame(drawBg);
+}
+drawBg();
+
+// NAV
+const secs=['s0','s1','s2','s3'],dots=document.querySelectorAll('.nav-dot');
+function goTo(i){document.getElementById(secs[i]).scrollIntoView({behavior:'smooth'});}
+window.addEventListener('scroll',()=>{let c=0;secs.forEach((id,i)=>{const el=document.getElementById(id);if(el&&el.getBoundingClientRect().top<=window.innerHeight/2)c=i;});dots.forEach((d,i)=>d.classList.toggle('active',i===c));});
+
+// REVEAL
+const revEls=document.querySelectorAll('.reveal');
+const obs=new IntersectionObserver(entries=>{entries.forEach((e,i)=>{if(e.isIntersecting)setTimeout(()=>e.target.classList.add('visible'),i*90);});},{threshold:.12});
+revEls.forEach(el=>obs.observe(el));
+
+// COUNTER
+const START=new Date(2023,9,31,23,0,0),CIRC=283;
+function setRing(id,val,max){const el=document.getElementById(id);if(!el)return;el.style.strokeDashoffset=CIRC-Math.min(val/max,1)*CIRC;}
+function updateCounter(){
+  const now=new Date(),diff=now-START;
+  const totalSecs=Math.floor(diff/1000),totalHrs=Math.floor(totalSecs/3600);
+  let y=now.getFullYear()-START.getFullYear(),mo=now.getMonth()-START.getMonth(),d=now.getDate()-START.getDate();
+  if(d<0){mo--;d+=new Date(now.getFullYear(),now.getMonth(),0).getDate();}
+  if(mo<0){mo+=12;y--;}
+  const hrs=totalHrs%24,s=totalSecs%60;
+  document.getElementById('nY').textContent=y;
+  document.getElementById('nM').textContent=mo;
+  document.getElementById('nD').textContent=d;
+  document.getElementById('nH').textContent=hrs;
+  document.getElementById('nS').textContent=s<10?'0'+s:s;
+  setRing('ringY',y,5);setRing('ringM',mo,12);setRing('ringD',d,31);setRing('ringH',hrs,24);setRing('ringS',s,60);
+}
+updateCounter();setInterval(updateCounter,1000);
+
+// GAME
+const gc=document.getElementById('gameCanvas'),gx=gc.getContext('2d');
+let gRun=false,gScore=0,gLives=3,gHearts=[],gRaf=null,gSpawn=null;
+function resizeGame(){const mw=Math.min(300,window.innerWidth-56);gc.width=mw;gc.height=Math.round(mw*1.33);}
+resizeGame();window.addEventListener('resize',resizeGame);
+const cMsgs=['¡Bien! 💕','¡Sí! 🌹','¡Te amo! ✨','¡Mi bantita! 🩷','¡Corazón! ❤️','¡Perfecta! 🌸','¡Eres mía! 💛'];
+const emojis=['❤️','🩷','💕','🌹','💖','💗','🌸','✨','🌺','💝'];
+function makeHeart(){return{x:Math.random()*(gc.width-50)+25,y:-30,vy:1.4+Math.random()*2.4,r:20+Math.random()*14,emoji:emojis[Math.floor(Math.random()*emojis.length)],alpha:1,caught:false,scale:1};}
+function drawGame(){
+  gx.clearRect(0,0,gc.width,gc.height);
+  gx.strokeStyle='rgba(212,84,110,.04)';gx.lineWidth=1;
+  for(let x=0;x<gc.width;x+=40){gx.beginPath();gx.moveTo(x,0);gx.lineTo(x,gc.height);gx.stroke();}
+  for(let y=0;y<gc.height;y+=40){gx.beginPath();gx.moveTo(0,y);gx.lineTo(gc.width,y);gx.stroke();}
+  gHearts.forEach(h=>{gx.save();gx.globalAlpha=h.alpha;gx.font=(h.r*2*h.scale)+'px serif';gx.textAlign='center';gx.textBaseline='middle';gx.shadowColor='rgba(212,84,110,.6)';gx.shadowBlur=12;gx.fillText(h.emoji,h.x,h.y);gx.restore();});
+}
+function gameLoop(){
+  if(!gRun)return;
+  gHearts.forEach(h=>{if(!h.caught)h.y+=h.vy;});
+  gHearts=gHearts.filter(h=>{if(!h.caught&&h.y>gc.height+40){gLives--;document.getElementById('gLives').textContent=Math.max(gLives,0);if(gLives<=0){endGame();return false;}return false;}return true;});
+  drawGame();gRaf=requestAnimationFrame(gameLoop);
+}
+function startGame(){
+  gRun=true;gScore=0;gLives=3;gHearts=[];
+  document.getElementById('gScore').textContent=0;document.getElementById('gLives').textContent=3;
+  document.getElementById('gameMsg').textContent='¡Atrapa los corazones! 💕';
+  document.getElementById('gameBtn').textContent='Reiniciar 🔄';
+  clearInterval(gSpawn);gSpawn=setInterval(()=>{if(gHearts.length<10)gHearts.push(makeHeart());},650);
+  if(gRaf)cancelAnimationFrame(gRaf);gameLoop();
+}
+function endGame(){
+  gRun=false;clearInterval(gSpawn);cancelAnimationFrame(gRaf);drawGame();
+  const m=gScore>=20?'¡Wow! '+gScore+' ❤️ — ¡Kiara sabe cuánto la amas! 🌹':gScore>=10?'¡Muy bien! '+gScore+' corazones 💕':gScore+' corazones — ¡Inténtalo de nuevo mi bantita! 🌸';
+  document.getElementById('gameMsg').textContent=m;
+  document.getElementById('gameBtn').textContent='Jugar de nuevo 🌹';
+  document.getElementById('gameBtn').onclick=startGame;
+}
+function catchAt(cx,cy){
+  if(!gRun)return;
+  gHearts.forEach(h=>{if(h.caught)return;if(Math.hypot(cx-h.x,cy-h.y)<h.r+14){h.caught=true;gScore++;document.getElementById('gScore').textContent=gScore;document.getElementById('gameMsg').textContent=cMsgs[Math.floor(Math.random()*cMsgs.length)];let t=0;const pop=()=>{t+=.1;h.scale+=.12;h.alpha=Math.max(0,1-t);if(h.alpha>0)requestAnimationFrame(pop);else gHearts=gHearts.filter(x=>x!==h);};pop();}});
+}
+gc.addEventListener('click',e=>{const r=gc.getBoundingClientRect(),sx=gc.width/r.width,sy=gc.height/r.height;catchAt((e.clientX-r.left)*sx,(e.clientY-r.top)*sy);});
+gc.addEventListener('touchstart',e=>{e.preventDefault();const r=gc.getBoundingClientRect(),sx=gc.width/r.width,sy=gc.height/r.height;Array.from(e.changedTouches).forEach(t=>catchAt((t.clientX-r.left)*sx,(t.clientY-r.top)*sy));},{passive:false});
+drawGame();
+</script>
+</body>
+</html>
